@@ -60,12 +60,11 @@ export default {
   methods: {
     login: function() {
       this.$http.post("/auth/signin",{email:this.email, password:this.password}).then(response => {
-        console.log(response);
-        if(response.data === 'success'){
+        if(response.data.status !== 'failed'){
            router.push({ name: "home" }, () => {});
         }else{
           this.alert = true;
-          this.message = 'ID does not exist'
+          this.message = response.data.message;
         }
     });
       
