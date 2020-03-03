@@ -49,7 +49,8 @@ const router = new VueRouter({
           name: "user",
           components: {
             content: User
-          }
+          },
+          meta: {authRequired: true}
         },
       ]
     },
@@ -63,12 +64,11 @@ router.beforeEach((to, from, next)=>{
   {
     axios.get('/auth/check')
     .then(response => {
-      //return 'success'
-      console.log(response.data);
+      console.log(response);
       next();
     })
     .catch(error => {
-      alert(error.response.data);
+      alert(error);
     });
   }
   else{
