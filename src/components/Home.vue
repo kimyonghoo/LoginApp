@@ -3,10 +3,12 @@
     <v-container>
       <v-btn id="fruit" v-on:click="goToFruit()">Fruit information</v-btn>
       <v-btn id="vege" v-on:click="goToVege()">Vegetable information</v-btn>
+      <v-btn id="vege" v-on:click="goToUser()">User information</v-btn>
     </v-container>
   </v-content>
 </template>
 <script>
+// import { EventBus} from "../event-bus"
 import router from "../router";
 export default {
   methods: {
@@ -20,6 +22,11 @@ export default {
       router.push({
         name: "vege"
         // query: { pgmNo: "TEST", elem: "TEST" }
+      });
+    },
+    goToUser: function() {
+      router.push({
+        name: "user"
       });
     }
   }

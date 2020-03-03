@@ -2,6 +2,7 @@
   <v-app-bar app color="#150e44" dark>
     <v-toolbar-title>{{title}}</v-toolbar-title>
     <v-spacer />
+    <v-toolbar-title>{{id}}</v-toolbar-title>
     <v-btn @click="home" class="ma-1" color="orange darken-2">
       <v-icon left>home</v-icon>Home
     </v-btn>
@@ -20,11 +21,13 @@ import router from "../router";
 export default {
   data() {
     return {
-      title: "Farmer's note"
+      title: "Farmer's note",
+      id: ""
     };
   },
   created() {
-    EventBus.$on("title", title => {
+    this.id=this.$route.params.id;
+    EventBus.$on('title', title => {
       this.title = title;
     });
   },

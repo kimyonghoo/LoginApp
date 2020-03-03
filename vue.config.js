@@ -6,6 +6,10 @@ module.exports = {
         "target": "http://localhost:3030/",
         "changeOrigin": true
       },
+      "/user": {
+        "target": "http://localhost:3030/",
+        "changeOrigin": true
+      },
     },
   },
   "transpileDependencies": [

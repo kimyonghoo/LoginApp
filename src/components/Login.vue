@@ -54,14 +54,12 @@ export default {
       alert:false,
     };
   },
-  props: {
-    source: String
-  },
   methods: {
     login: function() {
       this.$http.post("/auth/signin",{email:this.email, password:this.password}).then(response => {
         if(response.data.status !== 'failed'){
-           router.push({ name: "home" }, () => {});
+          localStorage.setItem("token",response.data.token);
+          router.push({ name: "home", params:{id:response.data.user} }, () => {});
         }else{
           this.alert = true;
           this.message = response.data.message;
@@ -69,6 +67,6 @@ export default {
     });
       
     }
-  },
+  }
 };
 </script>

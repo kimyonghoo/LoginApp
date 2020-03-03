@@ -6,7 +6,7 @@
           <v-input>{{title}}</v-input>
         </v-row>
         <v-row>
-          <v-text-field v-model="potato" label="Apple" outlined readonly></v-text-field>
+          <v-text-field v-model="potato" label="Potato" outlined readonly></v-text-field>
         </v-row>
         <v-row>
           <v-text-field v-model="broccoli" label="Broccoli" outlined readonly></v-text-field>
