@@ -7,6 +7,8 @@ import Home from '../components/Home'
 import Fruit from '../components/biz/Fruit'
 import Vege from '../components/biz/Vege'
 import User from '../components/biz/User'
+
+import axios from 'axios'
 Vue.use(VueRouter)
 
 const router = new VueRouter({
@@ -59,8 +61,15 @@ router.beforeEach((to, from, next)=>{
     return routeInfo.meta.authRequired;
   }))
   {
-    console.log('Login Please');
-    // 여기서 auth check 를 한다
+    axios.get('/auth/check')
+    .then(response => {
+      //return 'success'
+      console.log(response.data);
+      next();
+    })
+    .catch(error => {
+      alert(error.response.data);
+    });
   }
   else{
     next();

@@ -10,8 +10,10 @@
       <v-icon left>mdi-arrow-left</v-icon>back
     </v-btn>
     <v-btn @click="go" class="ma-1" color="#00ade6">
-      Go
-      <v-icon right>mdi-arrow-right</v-icon>
+      Go<v-icon right>mdi-arrow-right</v-icon>
+    </v-btn>
+    <v-btn @click="logout" class="ma-1" color="#00ade6">
+      <v-icon left>exit_to_app</v-icon>Logout
     </v-btn>
   </v-app-bar>
 </template>
@@ -40,6 +42,10 @@ export default {
     },
     home: function() {
       router.push({ name: "home" }, () => {});
+    },
+    logout: function() {
+      localStorage.removeItem("token");
+      router.push('/login');
     }
   }
 };

@@ -21,8 +21,7 @@ export default {
     };
   },
   created() {
-    this.$http
-      .get("/user/search")
+    this.$http.get("/user/search")
       .then(response => {
         this.colInfo = response.data;
       })
