@@ -6,7 +6,6 @@ import vuetify from './plugins/vuetify';
 
 Vue.config.productionTip = false
 Vue.prototype.$http = axios
-axios.defaults.headers.common['Authorization'] = 'Bearer '+ localStorage.getItem("token");
 new Vue({
   router,
   vuetify,

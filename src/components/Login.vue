@@ -5,12 +5,12 @@
         <v-row align="center" justify="center">
           <v-col cols="12" sm="8" md="4">
             <v-card class="elevation-12">
-              <v-toolbar color="primary" dark flat>
+              <v-toolbar color="#34558b" dark flat>
                 <v-toolbar-title>Login form</v-toolbar-title>
                 <v-spacer />
               </v-toolbar>
               <v-card-text>
-                <v-form>
+                <v-form @keyup.native.enter="login">
                   <v-text-field 
                     v-model="email" 
                     label="Login" 
@@ -31,7 +31,7 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer />
-                <v-btn @click="login" color="primary">Login</v-btn>
+                <v-btn @click="login" color="#34558b" dark>Login</v-btn>
               </v-card-actions>
             </v-card>
                 <v-alert v-if="alert" type="error">

@@ -8,20 +8,17 @@
   </v-content>
 </template>
 <script>
-// import { EventBus} from "../event-bus"
 import router from "../router";
 export default {
   methods: {
     goToFruit: function() {
       router.push({
         name: "fruit"
-        // query: { pgmNo: "TEST", elem: "TEST" }
       });
     },
     goToVege: function() {
       router.push({
         name: "vege"
-        // query: { pgmNo: "TEST", elem: "TEST" }
       });
     },
     goToUser: function() {
