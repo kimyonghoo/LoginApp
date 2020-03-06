@@ -46,7 +46,7 @@ router.beforeEach((to, from, next)=>{
       next();
     }).catch(error => {
       alert(error.response.data.error.message);
-      router.push(false);
+      router.push('/login');
     });
   }
   else{
