@@ -12,9 +12,19 @@
     <v-btn @click="go" class="ma-1" color="#4ec5a5">
       Go<v-icon right>mdi-arrow-right</v-icon>
     </v-btn>
-    <v-btn @click="logout" class="ma-1" color="#ffaf12">
+    <v-btn @click="snackbar.visible=true" class="ma-1" color="#ffaf12">
       <v-icon left>exit_to_app</v-icon>Logout
     </v-btn>
+    <v-snackbar class="mt-12 mr-3"
+      v-model="snackbar.visible"
+      :color="snackbar.color" 
+      :top="snackbar.top"
+      :right="snackbar.right"
+    ><v-icon left>exit_to_app</v-icon>
+      Do you want to logout?                                      
+      <v-btn @click="logout" dark text>YES</v-btn>
+      <v-btn @click="snackbar.visible=false" class="ma-1" dark text>NO</v-btn>
+    </v-snackbar>
   </v-app-bar>
 </template>
 <script>
@@ -24,6 +34,12 @@ export default {
     return {
       title: "Farmer's note",
       id: "",
+      snackbar:{
+        visible:true,
+        top:true,
+        right:true,
+        color:"#ffaf12"
+      }
     };
   },
   created() {

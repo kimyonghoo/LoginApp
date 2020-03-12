@@ -44,9 +44,9 @@
         <template>
           <div class="text-center ma-2">
             <v-snackbar
-              v-model="snackBar"
-              :color="snackColor"
-            >{{ snackMessage }}              
+              v-model="snackbar.visible"
+              :color="snackbar.color"
+            >{{ snackbar.message }}              
             </v-snackbar>
           </div>
         </template>
@@ -61,47 +61,51 @@ export default {
     return {
       email:'',
       password: '',
-      emailConfirm: false,
-      passwordConfirm: false,
+      confirm:{
+        email:false,
+        password:false
+      },
       rules: {
         email: [
           v =>!!v || 'E-mail is required',
           v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
-          v => this.emailConfirm = !!v && /.+@.+\..+/.test(v)
+          v => this.confirm.email = !!v && /.+@.+\..+/.test(v)
         ],
         password: [
           v => !!v || 'Password is required',
-          v => this.passwordConfirm = !!v
+          v => this.confirm.password = !!v
         ]
       },
-      snackBar:false,
-      snackMessage:'',
-      snackColor: '',
+      snackbar:{
+        visible:false,
+        message:'',
+        color:''
+      }
     };
   },
   methods: {
     login: function() {
       if(this.isDisabled) return;
-      this.snackBar = true;
-      this.snackColor = 'info';
-      this.snackMessage = 'Progressing...';
+      this.snackbar.visible = true;
+      this.snackbar.color = 'info';
+      this.snackbar.message = 'Progressing...';
       this.$http.post("/auth/signin",{email:this.email, password:this.password}).then(response => {
         if(response.data.status === true){
-          this.snackColor = 'success';
-          this.snackMessage = 'Success';
+          this.snackbar.color = 'success';
+          this.snackbar.message = 'Success';
           localStorage.setItem("token",response.data.token);
           router.push({ name: "home", params:{id:response.data.user}}, () => {});
         }else{
-          this.snackBar = true;
-          this.snackColor = 'error';
-          this.snackMessage = response.data.message;
+          this.snackbar.visible = true;
+          this.snackbar.color = 'error';
+          this.snackbar.message = response.data.message;
         }
      });
     },
   },
   computed: {
     isDisabled() {
-      return (this.emailConfirm && this.passwordConfirm)?false:true;
+      return (this.confirm.email && this.confirm.password)?false:true;
     }
   }
 };
