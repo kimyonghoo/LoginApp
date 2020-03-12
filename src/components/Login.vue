@@ -11,13 +11,32 @@
               </v-toolbar>
               <v-card-text>
                 <v-form>
-                  <v-text-field v-model="email" label="email" prepend-icon="person" :rules="emailRules" autocomplete="email" v-on:keyup.enter="login"/>
-                  <v-text-field v-model="password" label="Password" prepend-icon="lock" type="password" :rules="required" autocomplete="current-password" v-on:keyup.enter="login"/>
+                  <v-text-field 
+                    v-model="email" 
+                    label="email" 
+                    prepend-icon="person" 
+                    :rules="rules.email" 
+                    autocomplete="email" 
+                    v-on:keyup.enter="login"
+                  />
+                  <v-text-field 
+                    v-model="password" 
+                    label="Password" 
+                    prepend-icon="lock"
+                    type="password" 
+                    :rules="rules.password" 
+                    autocomplete="current-password" 
+                    v-on:keyup.enter="login"
+                   />
                 </v-form>
               </v-card-text>
               <v-card-actions>
                 <v-spacer />
-                <v-btn @click="login">LOGIN</v-btn>
+                <v-btn
+                  name="submit"
+                  @click="login"
+                  :disabled="isDisabled"
+                >LOGIN</v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -42,13 +61,19 @@ export default {
     return {
       email:'',
       password: '',
-      emailRules: [
-        v => !!v || 'E-mail is required',
-        v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
-      ],
-      required: [
-        value => !!value || "Password is required."
-      ],
+      emailConfirm: false,
+      passwordConfirm: false,
+      rules: {
+        email: [
+          v =>!!v || 'E-mail is required',
+          v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+          v => this.emailConfirm = !!v && /.+@.+\..+/.test(v)
+        ],
+        password: [
+          v => !!v || 'Password is required',
+          v => this.passwordConfirm = !!v
+        ]
+      },
       snackBar:false,
       snackMessage:'',
       snackColor: '',
@@ -56,22 +81,28 @@ export default {
   },
   methods: {
     login: function() {
+      if(this.isDisabled) return;
       this.snackBar = true;
       this.snackColor = 'info';
       this.snackMessage = 'Progressing...';
       this.$http.post("/auth/signin",{email:this.email, password:this.password}).then(response => {
         if(response.data.status === true){
           this.snackColor = 'success';
-        this.snackMessage = 'Success';
+          this.snackMessage = 'Success';
           localStorage.setItem("token",response.data.token);
           router.push({ name: "home", params:{id:response.data.user}}, () => {});
         }else{
           this.snackBar = true;
           this.snackColor = 'error';
-          this.snackMessage = response.data.message?response.data.message:"login failed";
+          this.snackMessage = response.data.message;
         }
      });
     },
+  },
+  computed: {
+    isDisabled() {
+      return (this.emailConfirm && this.passwordConfirm)?false:true;
+    }
   }
 };
 </script>
