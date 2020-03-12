@@ -41,8 +41,7 @@ router.beforeEach((to, from, next)=>{
     return routeInfo.meta.authRequired;
   }))
   {
-    axios.get('/auth/check').then(response => {
-      console.log(response);
+    axios.get('/auth/check').then(() => {
       next();
     }).catch(error => {
       alert(error.response.data.error.message);
