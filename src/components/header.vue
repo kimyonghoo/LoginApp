@@ -3,6 +3,8 @@
     <v-toolbar-title>{{title}}</v-toolbar-title>
     <v-spacer />
     <v-toolbar-title>{{id}}</v-toolbar-title>
+    <v-spacer />
+    <v-toolbar-title>Expiredin: {{minutes }}:{{seconds}}</v-toolbar-title>
     <v-btn @click="home" class="ma-1" color="#4ec5a5">
       <v-icon left>home</v-icon>Home
     </v-btn>
@@ -40,11 +42,14 @@ export default {
     return {
       title: "Farmer's note",
       id: "",
-      dialog: false
+      dialog: false,
+      totalTime: (1 * 60),
     };
   },
   created() {
-    this.id=this.$route.params.id;
+    this.id = this.$route.params.id;
+    this.totalTime = this.$route.params.timeout/1000;
+    this.startTimer();
   },
   methods: {
     go: function() {
@@ -59,6 +64,29 @@ export default {
     logout: function() {
       localStorage.removeItem("token");
       router.push('/login');
+    },
+    startTimer: function() {
+        this.timer = setInterval(() => this.countdown(), 1000);
+    },
+    padTime: function(time) {
+        return (time < 10 ? '0' : '') + time;
+    },
+    countdown: function() {
+        if(this.totalTime >= 1) {
+            this.totalTime--;
+        } else {
+            this.totalTime = 0;
+        }
+    }
+  },
+  computed: {
+    minutes: function() {
+        const minutes = Math.floor(this.totalTime / 60);
+        return this.padTime(minutes);
+    },
+    seconds: function() {
+        const seconds = this.totalTime - (this.minutes * 60);
+        return this.padTime(seconds);
     }
   }
 };
