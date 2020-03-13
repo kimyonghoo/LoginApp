@@ -52,7 +52,7 @@ export default {
     this.totalTime = this.$route.params.timeout/1000;
     this.startTimer();
     EventBus.$on("timeout", v=>{
-      this.totalTime = v/1000;
+      this.totalTime = v;
     })
   },
   methods: {
@@ -67,6 +67,7 @@ export default {
     },
     logout: function() {
       sessionStorage.removeItem("token");
+      sessionStorage.removeItem("account");
       router.push('/login');
     },
     startTimer: function() {
