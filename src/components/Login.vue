@@ -93,8 +93,9 @@ export default {
         if(response.data.status === true){
           this.snackbar.color = 'success';
           this.snackbar.message = 'Success';
-          localStorage.setItem("token",response.data.token);
-          router.push({ name: "home", params:{id:response.data.user, timeout:response.data.timeout}}, () => {});
+          sessionStorage.setItem("token",response.data.token);
+          sessionStorage.setItem("account",response.data.user);
+          router.push({ name: "home", params:{timeout:response.data.timeout}}, () => {});
         }else{
           this.snackbar.visible = true;
           this.snackbar.color = 'error';

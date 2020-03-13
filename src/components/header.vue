@@ -2,7 +2,7 @@
   <v-app-bar app color="#34558b" dark>
     <v-toolbar-title>{{title}}</v-toolbar-title>
     <v-spacer />
-    <v-toolbar-title>{{id}}</v-toolbar-title>
+    <v-toolbar-title>{{account}}</v-toolbar-title>
     <v-spacer />
     <v-toolbar-title>Expiredin: {{minutes }}:{{seconds}}</v-toolbar-title>
     <v-btn @click="home" class="ma-1" color="#4ec5a5">
@@ -36,20 +36,24 @@
   </v-app-bar>
 </template>
 <script>
+import {EventBus} from "../event-bus"
 import router from "../router";
 export default {
   data() {
     return {
       title: "Farmer's note",
-      id: "",
+      account: "",
       dialog: false,
-      totalTime: (1 * 60),
+      totalTime: 0,
     };
   },
   created() {
-    this.id = this.$route.params.id;
+    this.account = sessionStorage.getItem('account');
     this.totalTime = this.$route.params.timeout/1000;
     this.startTimer();
+    EventBus.$on("timeout", v=>{
+      this.totalTime = v/1000;
+    })
   },
   methods: {
     go: function() {
@@ -62,7 +66,7 @@ export default {
       router.push({ name: "home" }, () => {});
     },
     logout: function() {
-      localStorage.removeItem("token");
+      sessionStorage.removeItem("token");
       router.push('/login');
     },
     startTimer: function() {

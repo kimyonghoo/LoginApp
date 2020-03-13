@@ -9,8 +9,10 @@ import Fruit from '../components/biz/Fruit'
 import Vege from '../components/biz/Vege'
 import User from '../components/biz/User'
 
+import {EventBus} from '../event-bus'
+
 axios.interceptors.request.use(function (config) {
-  config.headers.Authorization = 'Bearer '+ localStorage.getItem("token");
+  config.headers.Authorization = 'Bearer '+ sessionStorage.getItem("token");
   return config;
 }, function (error) {
   return Promise.reject(error);
@@ -41,7 +43,9 @@ router.beforeEach((to, from, next)=>{
     return routeInfo.meta.authRequired;
   }))
   {
-    axios.get('/auth/check').then(() => {
+    axios.get('/auth/check').then((req) => {
+      sessionStorage.setItem("token", req.data.token);
+      EventBus.$emit("timeout", req.data.timeout);
       next();
     }).catch(error => {
       alert(error.response.data.error.message);
