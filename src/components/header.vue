@@ -76,6 +76,8 @@ export default {
             this.totalTime--;
         } else {
             this.totalTime = 0;
+            clearInterval(this.timer);
+            this.logout();
         }
     }
   },
